@@ -149,7 +149,14 @@ button, a, input {
   .codepen-auth-container {
     width: 900px;
     max-width: calc(100vw - 32px);
-    height: 530px;
+    /*
+     * 530px quando a janela e alta; encolhe junto com a janela ate um piso de
+     * 420px. Os 110px descontados sao o topo institucional (43) + rodape (24)
+     * + padding do main (20) + folga. Assim a tela de login caber sem rolagem
+     * mesmo em janela baixa (notebook nao maximizado, zoom aumentado) - e sem
+     * cortar nada, porque o conteudo interno rola dentro do card se precisar.
+     */
+    height: clamp(420px, calc(100dvh - 110px), 530px);
     border-radius: 26px;
   }
 
