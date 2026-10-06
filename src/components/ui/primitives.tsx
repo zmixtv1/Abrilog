@@ -1,7 +1,6 @@
 /**
- * Componentes de interface reutilizaveis (sem estado - seguros em Server
- * Components). Esboco funcional: o visual pode ser substituido sem mexer na
- * logica, desde que os nomes e as props sejam mantidos.
+ * Componentes de interface reutilizaveis (sem estado - seguros em Server Components).
+ * Redesenhados com Glassmorphism Claro e Acentos em Verde Esmeralda Secundario.
  */
 
 import Link from 'next/link'
@@ -28,7 +27,7 @@ export function Card({
 }) {
   return (
     <section
-      className={`rounded-lg border border-line bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.06)] ${className}`}
+      className={`rounded-3xl border border-slate-200/90 bg-white/95 shadow-sm anime-entry anime-card ${className}`}
     >
       {children}
     </section>
@@ -45,10 +44,10 @@ export function CardHeader({
   action?: React.ReactNode
 }) {
   return (
-    <header className="flex flex-wrap items-start justify-between gap-3 border-b border-line px-4 py-3">
+    <header className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100/90 px-6 py-4">
       <div>
-        <h2 className="text-sm font-semibold tracking-wide text-foreground uppercase">{title}</h2>
-        {description ? <p className="mt-1 text-sm text-muted">{description}</p> : null}
+        <h2 className="text-sm font-bold tracking-wider text-slate-900 uppercase">{title}</h2>
+        {description ? <p className="mt-1 text-xs text-slate-500">{description}</p> : null}
       </div>
       {action}
     </header>
@@ -62,7 +61,7 @@ export function CardBody({
   children: React.ReactNode
   className?: string
 }) {
-  return <div className={`px-4 py-4 ${className}`}>{children}</div>
+  return <div className={`px-6 py-5 ${className}`}>{children}</div>
 }
 
 export function PageHeader({
@@ -75,10 +74,16 @@ export function PageHeader({
   action?: React.ReactNode
 }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-4 anime-entry">
       <div>
-        <h1 className="text-2xl font-semibold text-foreground">{title}</h1>
-        {description ? <p className="mt-1 max-w-3xl text-sm text-muted">{description}</p> : null}
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 anime-beacon" />
+          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-800">
+            Painel Oficial · Defesa Civil
+          </span>
+        </div>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{title}</h1>
+        {description ? <p className="mt-1 max-w-3xl text-sm text-slate-600 leading-relaxed">{description}</p> : null}
       </div>
       {action}
     </div>
@@ -89,11 +94,11 @@ export function PageHeader({
 // Indicadores
 // -----------------------------------------------------------------------------
 const TONES = {
-  neutral: 'border-line bg-surface',
-  brand: 'border-blue-200 bg-blue-50',
-  danger: 'border-red-200 bg-red-50',
-  warning: 'border-amber-200 bg-amber-50',
-  success: 'border-emerald-200 bg-emerald-50',
+  neutral: 'border-slate-200/80 bg-white/85 text-slate-900 shadow-2xs',
+  brand: 'border-blue-200/80 bg-gradient-to-br from-blue-50/80 to-white/90 text-blue-950 shadow-2xs',
+  danger: 'border-red-200/80 bg-gradient-to-br from-red-50/80 to-white/90 text-red-950 shadow-2xs',
+  warning: 'border-amber-200/80 bg-gradient-to-br from-amber-50/80 to-white/90 text-amber-950 shadow-2xs',
+  success: 'border-emerald-200/80 bg-gradient-to-br from-emerald-50/80 to-white/90 text-emerald-950 shadow-2xs',
 } as const
 
 export type Tone = keyof typeof TONES
@@ -112,17 +117,19 @@ export function StatCard({
   href?: string
 }) {
   const content = (
-    <div className={`rounded-lg border p-4 ${TONES[tone]}`}>
-      <p className="text-xs font-medium tracking-wide text-muted uppercase">{label}</p>
-      <p className="mt-2 text-3xl font-semibold text-foreground">
+    <div
+      className={`rounded-2xl border p-4.5 anime-card anime-entry shadow-2xs ${TONES[tone]}`}
+    >
+      <p className="text-xs font-semibold tracking-wider text-slate-500 uppercase">{label}</p>
+      <p className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 font-mono">
         {typeof value === 'number' ? formatNumber(value) : value}
       </p>
-      {hint ? <p className="mt-1 text-xs text-muted">{hint}</p> : null}
+      {hint ? <p className="mt-1 text-xs text-slate-500">{hint}</p> : null}
     </div>
   )
 
   return href ? (
-    <Link href={href} className="block transition hover:opacity-80">
+    <Link href={href} className="block transition hover:opacity-90">
       {content}
     </Link>
   ) : (
@@ -142,7 +149,7 @@ export function ProgressBar({
   const clamped = Math.max(0, Math.min(100, percentage))
   const color =
     tone === 'danger'
-      ? 'bg-red-600'
+      ? 'bg-red-500'
       : tone === 'warning'
         ? 'bg-amber-500'
         : tone === 'success'
@@ -152,19 +159,22 @@ export function ProgressBar({
   return (
     <div>
       {label ? (
-        <div className="mb-1 flex justify-between text-xs text-muted">
+        <div className="mb-1.5 flex justify-between text-xs text-slate-600">
           <span>{label}</span>
-          <span>{formatPercent(clamped)}</span>
+          <span className="font-semibold text-slate-900">{formatPercent(clamped)}</span>
         </div>
       ) : null}
-      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
-        <div className={`h-full rounded-full ${color}`} style={{ width: `${clamped}%` }} />
+      <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100 border border-slate-200/50">
+        <div
+          className={`h-full rounded-full transition-all duration-700 anime-progress-bar ${color}`}
+          style={{ width: `${clamped}%` }}
+        />
       </div>
     </div>
   )
 }
 
-/** Grafico de barras horizontais em CSS (sem biblioteca, sem JS no cliente). */
+/** Grafico de barras horizontais em CSS. */
 export function BarList({
   items,
   emptyMessage = 'Sem dados para exibir.',
@@ -177,27 +187,27 @@ export function BarList({
   const max = items.reduce((acc, item) => Math.max(acc, item.value), 0)
 
   if (items.length === 0 || max === 0) {
-    return <p className="text-sm text-muted">{emptyMessage}</p>
+    return <p className="py-4 text-center text-sm text-slate-500">{emptyMessage}</p>
   }
 
   return (
-    <ul className="space-y-3">
+    <ul className="space-y-3.5">
       {items.map((item) => (
         <li key={item.label}>
-          <div className="flex items-baseline justify-between gap-2 text-sm">
-            <span className="truncate text-foreground">{item.label}</span>
-            <span className="shrink-0 font-medium text-foreground">
+          <div className="flex items-baseline justify-between gap-2 text-xs">
+            <span className="truncate font-medium text-slate-800">{item.label}</span>
+            <span className="shrink-0 font-bold text-slate-900">
               {formatNumber(item.value)}
               {unitSuffix ? ` ${unitSuffix}` : ''}
             </span>
           </div>
-          <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-slate-200">
+          <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-slate-100 border border-slate-200/40">
             <div
-              className="h-full rounded-full bg-blue-600"
+              className="h-full rounded-full bg-emerald-600 transition-all duration-300"
               style={{ width: `${(item.value / max) * 100}%` }}
             />
           </div>
-          {item.hint ? <p className="mt-1 text-xs text-muted">{item.hint}</p> : null}
+          {item.hint ? <p className="mt-1 text-[11px] text-slate-500">{item.hint}</p> : null}
         </li>
       ))}
     </ul>
@@ -208,7 +218,7 @@ export function BarList({
 // Selos de estado
 // -----------------------------------------------------------------------------
 const BADGE_BASE =
-  'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap'
+  'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap shadow-2xs'
 
 export function Badge({
   children,
@@ -218,11 +228,11 @@ export function Badge({
   tone?: Tone
 }) {
   const styles: Record<Tone, string> = {
-    neutral: 'bg-slate-100 text-slate-700',
-    brand: 'bg-blue-100 text-blue-800',
-    danger: 'bg-red-100 text-red-800',
-    warning: 'bg-amber-100 text-amber-900',
-    success: 'bg-emerald-100 text-emerald-800',
+    neutral: 'bg-slate-100/90 text-slate-700 border border-slate-200/80',
+    brand: 'bg-blue-50/90 text-blue-700 border border-blue-200/80',
+    danger: 'bg-red-50/90 text-red-700 border border-red-200/80',
+    warning: 'bg-amber-50/90 text-amber-800 border border-amber-200/80',
+    success: 'bg-emerald-50/90 text-emerald-800 border border-emerald-200/80 font-bold',
   }
   return <span className={`${BADGE_BASE} ${styles[tone]}`}>{children}</span>
 }
@@ -270,7 +280,8 @@ export function ShelterStatusBadge({ status }: { status: ShelterStatus }) {
 }
 
 export function SeverityBadge({ severity }: { severity: number }) {
-  const tone: Tone = severity >= 5 ? 'danger' : severity >= 4 ? 'warning' : severity >= 3 ? 'brand' : 'neutral'
+  const tone: Tone =
+    severity >= 5 ? 'danger' : severity >= 4 ? 'warning' : severity >= 3 ? 'brand' : 'neutral'
   return (
     <Badge tone={tone}>
       {severity} · {severityLabel(severity)}
@@ -291,9 +302,11 @@ export function EmptyState({
   action?: React.ReactNode
 }) {
   return (
-    <div className="rounded-lg border border-dashed border-line bg-surface px-6 py-10 text-center">
-      <p className="text-sm font-medium text-foreground">{title}</p>
-      {description ? <p className="mx-auto mt-1 max-w-md text-sm text-muted">{description}</p> : null}
+    <div className="rounded-2xl border border-dashed border-slate-200 bg-white/60 px-6 py-10 text-center backdrop-blur-sm">
+      <p className="text-sm font-semibold text-slate-800">{title}</p>
+      {description ? (
+        <p className="mx-auto mt-1 max-w-md text-xs text-slate-500 leading-relaxed">{description}</p>
+      ) : null}
       {action ? <div className="mt-4 flex justify-center">{action}</div> : null}
     </div>
   )
@@ -301,12 +314,12 @@ export function EmptyState({
 
 export function LoadingState({ label = 'Carregando dados...' }: { label?: string }) {
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-line bg-surface px-4 py-6 text-sm text-muted">
+    <div className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white/80 px-4 py-5 text-sm text-slate-600 backdrop-blur-md">
       <span
         aria-hidden
-        className="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-blue-600"
+        className="h-4 w-4 animate-spin rounded-full border-2 border-slate-200 border-t-emerald-600"
       />
-      <span role="status">{label}</span>
+      <span role="status" className="font-medium">{label}</span>
     </div>
   )
 }
@@ -321,9 +334,11 @@ export function ErrorState({
   action?: React.ReactNode
 }) {
   return (
-    <div className="rounded-lg border border-red-200 bg-red-50 px-6 py-8 text-center">
+    <div className="rounded-xl border border-red-200 bg-red-50/80 px-6 py-8 text-center backdrop-blur-sm">
       <p className="text-sm font-semibold text-red-800">{title}</p>
-      {description ? <p className="mx-auto mt-1 max-w-md text-sm text-red-700">{description}</p> : null}
+      {description ? (
+        <p className="mx-auto mt-1 max-w-md text-xs text-red-700 leading-relaxed">{description}</p>
+      ) : null}
       {action ? <div className="mt-4 flex justify-center">{action}</div> : null}
     </div>
   )
@@ -338,8 +353,10 @@ export function FormFeedback({ state }: { state: ActionState }) {
     <p
       role="status"
       aria-live="polite"
-      className={`rounded-md border px-3 py-2 text-sm ${
-        isError ? 'border-red-200 bg-red-50 text-red-800' : 'border-emerald-200 bg-emerald-50 text-emerald-800'
+      className={`rounded-lg border px-3.5 py-2.5 text-xs font-medium ${
+        isError
+          ? 'border-red-200 bg-red-50 text-red-800'
+          : 'border-emerald-200 bg-emerald-50 text-emerald-800 font-semibold'
       }`}
     >
       {isError ? '⚠ ' : '✓ '}
@@ -352,7 +369,7 @@ export function FormFeedback({ state }: { state: ActionState }) {
 // Formulario
 // -----------------------------------------------------------------------------
 export const inputClass =
-  'w-full rounded-md border border-line bg-surface px-3 py-2 text-sm text-foreground placeholder:text-slate-400 focus:border-blue-500 focus:outline-none'
+  'w-full rounded-xl border border-slate-200/90 bg-white/90 px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all shadow-2xs'
 
 export function Field({
   label,
@@ -371,14 +388,14 @@ export function Field({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-1 block text-sm font-medium text-foreground">
+      <label htmlFor={name} className="mb-1 block text-xs font-semibold tracking-wide text-slate-700 uppercase">
         {label}
-        {required ? <span className="ml-0.5 text-danger">*</span> : null}
+        {required ? <span className="ml-0.5 text-red-600">*</span> : null}
       </label>
       {children}
-      {hint ? <p className="mt-1 text-xs text-muted">{hint}</p> : null}
+      {hint ? <p className="mt-1 text-xs text-slate-500">{hint}</p> : null}
       {errors?.map((error) => (
-        <p key={error} className="mt-1 text-xs text-red-700">
+        <p key={error} className="mt-1 text-xs font-medium text-red-700">
           {error}
         </p>
       ))}

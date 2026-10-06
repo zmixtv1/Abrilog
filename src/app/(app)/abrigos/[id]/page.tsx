@@ -223,7 +223,7 @@ export default async function ShelterDetailPage({ params }: { params: Promise<{ 
                   render: (item) => (
                     <Link
                       href={`/ocorrencias/${item.occurrence.id}`}
-                      className="font-medium hover:underline"
+                      className="inline-block py-1 font-medium hover:underline"
                     >
                       {item.occurrence.title}
                     </Link>

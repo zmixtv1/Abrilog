@@ -167,12 +167,12 @@ export function ShelterForm({ shelter }: { shelter?: ShelterRow }) {
         </legend>
         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
           {INFRASTRUCTURE.map((item) => (
-            <label key={item.name} className="flex items-center gap-2 text-sm text-foreground">
+            <label key={item.name} className="flex items-center gap-2 py-1.5 text-sm text-foreground">
               <input
                 type="checkbox"
                 name={item.name}
                 defaultChecked={shelter ? Boolean(shelter[item.name]) : false}
-                className="h-4 w-4 rounded border-line"
+                className="h-5 w-5 rounded border-line"
               />
               {item.label}
             </label>

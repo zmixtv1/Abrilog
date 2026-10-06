@@ -151,7 +151,7 @@ export default async function OccurrenceDetailPage({
                       <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-700 text-xs font-semibold text-white">
                         {index + 1}
                       </span>
-                      <Link href={`/abrigos/${item.shelter_id}`} className="font-medium hover:underline">
+                      <Link href={`/abrigos/${item.shelter_id}`} className="inline-block py-1 font-medium hover:underline">
                         {item.shelter_name}
                       </Link>
                     </div>
@@ -344,7 +344,7 @@ export default async function OccurrenceDetailPage({
                   key: 'shelter',
                   header: 'Abrigo',
                   render: (row) => (
-                    <Link href={`/abrigos/${row.shelter_id}`} className="hover:underline">
+                    <Link href={`/abrigos/${row.shelter_id}`} className="inline-block py-1 hover:underline">
                       {row.shelter_name}
                     </Link>
                   ),

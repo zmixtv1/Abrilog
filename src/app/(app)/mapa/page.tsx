@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
+import { Building, Flame, MapPin } from 'lucide-react'
 
 import { activeOccurrences, loadSnapshot } from '@/lib/data/snapshot'
 import { occupancyPercentage, vacancies } from '@/lib/calculations/shelters'
-import { Card, CardBody, CardHeader, PageHeader } from '@/components/ui/primitives'
+import { PageHeader } from '@/components/ui/primitives'
 import { MapView } from '@/components/map/map-view'
 import type { OccurrenceMarker, ShelterMarker } from '@/components/map/types'
 
@@ -44,43 +45,55 @@ export default async function MapPage() {
     }))
 
   return (
-    <>
+    <div className="space-y-6 pb-12">
       <PageHeader
-        title="Mapa operacional"
-        description="Ocorrências ativas e abrigos sobre base cartográfica do OpenStreetMap. Clique em um marcador para ver os detalhes."
+        title="Mapa Situacional Operacional"
+        description="Visualização georreferenciada de ocorrências ativas e abrigos sobre a base cartográfica do OpenStreetMap. Clique em um marcador para inspecionar os detalhes."
       />
 
-      <Card>
-        <CardHeader
-          title={`${occurrences.length} ocorrência(s) e ${shelters.length} abrigo(s) no mapa`}
-          action={
-            <ul className="flex flex-wrap gap-3 text-xs text-muted">
-              <li className="flex items-center gap-1">
-                <span className="inline-block h-3 w-3 rounded-full bg-red-600" aria-hidden /> Crítica
-              </li>
-              <li className="flex items-center gap-1">
-                <span className="inline-block h-3 w-3 rounded-full bg-orange-600" aria-hidden /> Alta
-              </li>
-              <li className="flex items-center gap-1">
-                <span className="inline-block h-3 w-3 rounded-full bg-yellow-600" aria-hidden />{' '}
-                Moderada/baixa
-              </li>
-              <li className="flex items-center gap-1">
-                <span className="inline-block h-3 w-3 rounded-sm bg-blue-700" aria-hidden /> Abrigo
-              </li>
-            </ul>
-          }
-        />
-        <CardBody>
+      {/* Resumo e Legenda Tática em Glassmorphism */}
+      <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm anime-card anime-entry">
+        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+          <div className="flex items-center gap-2">
+            <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-blue-600 text-white shadow-2xs">
+              <MapPin className="h-3.5 w-3.5" />
+            </span>
+            <span className="text-xs font-bold tracking-wider text-slate-900 uppercase">
+              {occurrences.length} ocorrência(s) e {shelters.length} abrigo(s) georreferenciados
+            </span>
+          </div>
+
+          <ul className="flex flex-wrap items-center gap-3 text-xs font-medium text-slate-700">
+            <li className="flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50/70 px-2 py-0.5 text-red-900">
+              <span className="h-2.5 w-2.5 rounded-full bg-red-600" aria-hidden />
+              <span>Prioridade Crítica</span>
+            </li>
+            <li className="flex items-center gap-1.5 rounded-lg border border-orange-200 bg-orange-50/70 px-2 py-0.5 text-orange-900">
+              <span className="h-2.5 w-2.5 rounded-full bg-orange-600" aria-hidden />
+              <span>Prioridade Alta</span>
+            </li>
+            <li className="flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50/70 px-2 py-0.5 text-amber-900">
+              <span className="h-2.5 w-2.5 rounded-full bg-amber-500" aria-hidden />
+              <span>Moderada / Baixa</span>
+            </li>
+            <li className="flex items-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50/70 px-2 py-0.5 text-emerald-900">
+              <span className="h-2.5 w-2.5 rounded-sm bg-emerald-600" aria-hidden />
+              <span>Abrigo da Rede</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Container do Mapa */}
+        <div className="mt-4 overflow-hidden rounded-xl border border-slate-200/90 shadow-inner">
           <MapView occurrences={occurrences} shelters={shelters} center={DF_CENTER} />
-          {occurrences.length === 0 && shelters.length === 0 ? (
-            <p className="mt-3 text-sm text-muted">
-              Nenhum registro com coordenadas. Informe latitude e longitude ao cadastrar ocorrências e
-              abrigos para que apareçam no mapa.
-            </p>
-          ) : null}
-        </CardBody>
-      </Card>
-    </>
+        </div>
+
+        {occurrences.length === 0 && shelters.length === 0 ? (
+          <p className="mt-3 text-center text-xs text-slate-500">
+            Nenhum registro com coordenadas. Cadastre ocorrências e abrigos com latitude e longitude para plotagem automática.
+          </p>
+        ) : null}
+      </div>
+    </div>
   )
 }
