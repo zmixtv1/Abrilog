@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/*
+ * AbrigoLog - tema operacional.
+ * Azul escuro (navegacao), azul (acao), cinza (dados) e as cores de estado:
+ * vermelho = emergencia, amarelo = atencao, verde = normal.
+ *
+ * Esta folha e um esboco: ao redesenhar o front, trocar as variaveis abaixo
+ * atualiza toda a interface.
+ */
+
+:root {
+  --background: #f1f5f9;
+  --surface: #ffffff;
+  --foreground: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --brand: #1d4ed8;
+  --brand-dark: #0f2a5c;
+  --danger: #dc2626;
+  --warning: #d97706;
+  --success: #15803d;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tabelas densas sao a base da interface operacional. */
+table {
+  border-collapse: collapse;
+}
+
+/* Foco sempre visivel (acessibilidade). */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}

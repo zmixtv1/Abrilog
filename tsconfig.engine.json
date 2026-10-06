@@ -1,0 +1,23 @@
+{
+  "// nota": "Compila apenas o motor de regras (sem Next/React) para rodar os testes com node:test",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "commonjs",
+    "types": ["node"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": false,
+    "outDir": ".engine-build",
+    "rootDir": ".",
+    "sourceMap": true
+  },
+  "include": [
+    "src/types/domain.ts",
+    "src/lib/calculations/**/*.ts",
+    "src/lib/recommendations/**/*.ts",
+    "tests/engine/**/*.ts"
+  ]
+}
